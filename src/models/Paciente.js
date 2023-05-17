@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
-const autoIncrement = require('mongoose-auto-increment');
-
-autoIncrement.initialize(mongoose.connection);
 
 const PacienteSchema = new mongoose.Schema({
+    ID: { type: Number, default: 1, required: true},
     DataNascimento: { type: Number, required: true },
     numeroCPF: { type: String, required: true },
     orgaoEmissor: { type: String, required: true },
@@ -15,7 +13,7 @@ const PacienteSchema = new mongoose.Schema({
     Sexo: { type: String, required: true },
     Idade: { type: Number, required: true },
     Sangue: { type: String },
-    dataCadastro: { type: Date, required: true },
+    DataCadastro: { type: Date, required: true },
     NomePaiouResponsavel: { type: String },
     NomeMae: { type: String, required: true },
     EstadoCivil: { type: String },
@@ -23,9 +21,8 @@ const PacienteSchema = new mongoose.Schema({
     Bairro: { type: String, required: true },
     UfCidade: { type: String, required: true },
     CEP: { type: String, required: true },
-    celular: [{
-        chave: { type: String, required: true },
-        valor: { type: Number, required: true }
+    Celular: [{
+        Numero: { type: String, required: true },
     }],
     Email: { type: String },
     identZona: { type: String },
@@ -33,10 +30,20 @@ const PacienteSchema = new mongoose.Schema({
     Ocupacao: { type: String },
     GrauEstudo: { type: String },
     Conta: { type: Number },
-    hash: { type: String, required: true },
 });
 
-PacienteSchema.plugin(autoIncrement.plugin, { model: 'Paciente', field: '_id' });
+
+PacienteSchema.pre('save', async function(next) {
+    if (!this.isNew) {
+      return next();
+    }
+    const lastEntity = await Paciente.findOne({}, {}, { sort: { 'contador' : -1 } });
+    if (lastEntity && lastEntity.contador) {
+      this.contador = lastEntity.contador + 1;
+    }
+    next();
+  });
+
 
 const Paciente = mongoose.model('Paciente', PacienteSchema);
 
