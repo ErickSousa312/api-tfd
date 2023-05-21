@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
-const autoIncrement = require('mongoose-auto-increment');
-
-autoIncrement.initialize(mongoose.connection);
 
 const MedProfSchema = new mongoose.Schema({
+    ID: { type: Number, default: 1, required: true},
     IdPaciente: { type: mongoose.Schema.Types.ObjectId,ref:'Paciente', required: true},
     /*
         -NomePaciente
@@ -21,7 +19,16 @@ const MedProfSchema = new mongoose.Schema({
     Justificativa: { type: String, required: true },
 });
 
-MedProfSchema.plugin(autoIncrement.plugin, { model: 'ParecerMedico', field: '_id' });
+PacienteSchema.pre('save', async function(next) {
+    if (!this.isNew) {
+      return next();
+    }
+    const lastEntity = await Paciente.findOne({}, {}, { sort: { 'ID' : -1 } });
+    if (lastEntity && lastEntity.ID) {
+      this.ID = lastEntity.ID + 1;
+    }
+    next();
+  });
 
 const ParecerMedico = mongoose.model('ParecerMedico', MedProfSchema);
 

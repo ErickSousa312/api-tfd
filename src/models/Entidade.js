@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
-const autoIncrement = require('mongoose-auto-increment');
-
-autoIncrement.initialize(mongoose.connection);
 
 const EntidadeSchema = new mongoose.Schema({
+    _id: { type: Number, default: 1, required: true},
     NomeEntidade: { type: String, required: true },
     Cidade: { type: String, required: true },
     Estado: { type: String, required: true },
@@ -13,7 +11,16 @@ const EntidadeSchema = new mongoose.Schema({
     
 });
 
-EntidadeSchema.plugin(autoIncrement.plugin, { model: 'Entidade', field: '_id' });
+EntidadeSchema.pre('save', async function(next) {
+    if (!this.isNew) {
+      return next();
+    }
+    const lastEntity = await Entidade.findOne({}, {}, { sort: { '_id' : -1 } });
+    if (lastEntity && lastEntity._id) {
+      this._id = lastEntity._id + 1;
+    }
+    next();
+  });
 
 const Entidade = mongoose.model('Entidade', EntidadeSchema);
 

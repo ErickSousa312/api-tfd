@@ -1,4 +1,4 @@
-const Eleicao = require('../models/Eleicao')
+/*const Eleicao = require('../models/Eleicao')
 
 class ContVotoController{
     async post (req,res){
@@ -17,4 +17,4 @@ class ContVotoController{
     }
 }
 
-module.exports = new ContVotoController();
+module.exports = new ContVotoController();*/

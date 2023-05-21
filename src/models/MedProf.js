@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
-const autoIncrement = require('mongoose-auto-increment');
-
-autoIncrement.initialize(mongoose.connection);
 
 const MedProfSchema = new mongoose.Schema({
+    _id: { type: Number, default: 1, required: true},
     IdentProfissional: { type: Number, required: true },
     NomeCompleto: { type: String, required: true },
     NumeroRegistro: { type: Number, required: true },
@@ -13,7 +11,7 @@ const MedProfSchema = new mongoose.Schema({
     Cargo: { type: String, required: true},
     CodigoCBO: { type: String, required: true },
     Especialidades: [{
-        Nome: { type: String, required: true }
+        Nome: { type: String }
     }],
     DataNascimento: { type: String, required: true },
     CentroDeSaude: { type: String, required: true },
@@ -21,7 +19,16 @@ const MedProfSchema = new mongoose.Schema({
     Afastamento: { type: String }
 });
 
-MedProfSchema.plugin(autoIncrement.plugin, { model: 'MedProf', field: '_id' });
+MedProfSchema.pre('save', async function(next) {
+    if (!this.isNew) {
+      return next();
+    }
+    const lastEntity = await MedProf.findOne({}, {}, { sort: { '_id' : -1 } });
+    if (lastEntity && lastEntity._id) {
+      this._id = lastEntity._id + 1;
+    }
+    next();
+});
 
 const MedProf = mongoose.model('MedProf', MedProfSchema);
 

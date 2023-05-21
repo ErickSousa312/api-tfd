@@ -1,4 +1,4 @@
-const ResultadoEleicao = require('../models/Resultadoeleicao')
+/*const ResultadoEleicao = require('../models/Resultadoeleicao')
 
 class ResultadoController {
     async post (req,res){
@@ -55,4 +55,4 @@ class ResultadoController {
     }
 }
 
-module.exports = new ResultadoController();
+module.exports = new ResultadoController();*/

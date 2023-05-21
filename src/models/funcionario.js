@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
-const autoIncrement = require('mongoose-auto-increment');
-
-autoIncrement.initialize(mongoose.connection);
 
 const FuncionarioSchema = new mongoose.Schema({
-    nomeFuncionario: { type: Number, required: true },
+    _id: { type: Number, default: 1, required: true},
+    nomeFuncionario: { type: String, required: true },
     CPF: { type: String, required: true },
     Rg: { type: Number, required: true },
     NumeroMatricula: { type: Number, required: true },
@@ -19,11 +17,21 @@ const FuncionarioSchema = new mongoose.Schema({
     DataNascimento: { type: String, required: true },
     CentroDeSaude: { type: String, required: true },
     DataCadastro: { type: String, required: true },
-    Observação: { type: String }
+    Observação: { type: String, required: true }
 });
 
-FuncionarioSchema.plugin(autoIncrement.plugin, { model: 'Funcionario', field: '_id' });
 
+FuncionarioSchema.pre('save', async function(next) {
+    if (!this.isNew) {
+      return next();
+    }
+    const lastEntity = await Funcionario.findOne({}, {}, { sort: { '_id' : -1 } });
+    if (lastEntity && lastEntity._id) {
+      this._id = lastEntity._id + 1;
+    }
+    next();
+  });
+  
 const Funcionario = mongoose.model('Funcionario', FuncionarioSchema);
 
 module.exports = Funcionario;

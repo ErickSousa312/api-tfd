@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const ProcessoSchema = new mongoose.Schema({
+    _id : {type:String, default: '1/2023', required: true},
     IdPaciente: { type: mongoose.Schema.Types.ObjectId,ref:'Paciente', required: true},
     /*
         -NomePaciente
@@ -34,21 +35,21 @@ const ProcessoSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
-EntidadeSchema.pre('save', async function(next) {
+ProcessoSchema.pre('save', async function(next) {
     const now = new Date()
     const year = now.getFullYear()
-    const lastEntity = await Entidade.findOne({}, {}, { sort: { 'createdAt' : -1 } });
+    const lastEntity = await Processo.findOne({}, {}, { sort: { 'createdAt' : -1 } });
     let newCount = 1
-    if (lastEntity && lastEntity.contador) {
-        const [count, lastYear] = lastEntity.contador.split('/');
+    if (lastEntity && lastEntity._id) {
+        const [count, lastYear] = lastEntity._id.split('/');
         if (Number(lastYear) === year) {
             newCount = Number(count) + 1;
         } else {
-            newCount = 1; // Reinicia o contador para 1 se o ano for diferente
+            newCount = 1; // Reinicia o _id para 1 se o ano for diferente
         }
     }
     const paddedCount = String(newCount) //caso queira numeros 0 antes use .padStart(4, '0')
-    this.contador = `${paddedCount}/${year}`
+    this._id = `${paddedCount}/${year}`
     next();
 });
 

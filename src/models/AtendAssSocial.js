@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
-const autoIncrement = require('mongoose-auto-increment');
 
-autoIncrement.initialize(mongoose.connection);
-
-const MedProfSchema = new mongoose.Schema({
+const AtendAssSocialSchema = new mongoose.Schema({
+    _id: { type: Number, default: 1, required: true},
     IdPaciente: { type: mongoose.Schema.Types.ObjectId,ref:'Paciente', required: true},
     /*
         -NomePaciente
@@ -21,8 +19,17 @@ const MedProfSchema = new mongoose.Schema({
     Justificativa: { type: String, required: true },
 });
 
-MedProfSchema.plugin(autoIncrement.plugin, { model: 'AtendAssSocial', field: '_id' });
+AtendAssSocialSchema.pre('save', async function(next) {
+    if (!this.isNew) {
+      return next();
+    }
+    const lastEntity = await AtendAssSocial.findOne({}, {}, { sort: { '_id' : -1 } });
+    if (lastEntity && lastEntity._id) {
+      this._id = lastEntity._id + 1;
+    }
+    next();
+  });
 
-const AtendAssSocial = mongoose.model('AtendAssSocial', MedProfSchema);
+const AtendAssSocial = mongoose.model('AtendAssSocial', AtendAssSocialSchema);
 
 module.exports = AtendAssSocial;
