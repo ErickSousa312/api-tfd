@@ -7,4 +7,4 @@ router.get('/:id', Processo.get);
 router.delete('/:id', Processo.delete);
 router.put('/:id', Processo.update);
 
-module.exports = router;
+module.exports = router

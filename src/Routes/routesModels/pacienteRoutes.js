@@ -1,8 +1,7 @@
-
 const router = require('express').Router()
 const Paciente = require('../../Controllers/PacienteController');
 
-//Rotas Paciente
+//Rotas Pacientes
 router.post('/', Paciente.post);
 router.get('/:id', Paciente.get);
 router.delete('/:id', Paciente.delete);

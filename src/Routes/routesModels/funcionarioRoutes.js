@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const Funcionario = require('../../Controllers/FuncionarioController');
 
-//Rotas Funcionario
+//Rotas Funcionarios
 router.post('/', Funcionario.post);
 router.get('/:id', Funcionario.get);
 router.delete('/:id', Funcionario.delete);
