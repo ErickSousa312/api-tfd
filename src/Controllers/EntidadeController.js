@@ -17,7 +17,7 @@ class EntidadeController{
     }
     async get(req, res){
         try {
-            const{id}= req.parms
+            const{id}= req.params
             await Entidade.find({_id: id})
             .then((response)=>{
                 if(!response){
@@ -33,7 +33,7 @@ class EntidadeController{
 
     async delete(req,res){
         try {
-            const {id} = req.body
+            const {id} = req.params
             await Entidade.findOneAndDelete({_id: id}, {new:true})
             .then((response)=>{
                 if(!response){
@@ -49,7 +49,7 @@ class EntidadeController{
 
     async update (req, res){
         try {
-            const {id} = req.body
+            const {id} = req.params
             await Entidade.findOneAndUpdate({_id:id}, req.body, {new:true})
             .then((response)=>{
                 if(!response){

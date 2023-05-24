@@ -1,10 +1,10 @@
 const router = require('express').Router()
-const MedicoController = require('../../Controllers/MedProfController');
+const Medico = require('../../Controllers/MedProfController');
 
 //Rotas medicos
-router.post('/', MedicoController.post);
-router.get('/:id', MedicoController.get);
-router.delete('/:id', MedicoController.delete);
-router.put('/:id', MedicoController.update);
+router.post('/', Medico.post);
+router.get('/:id', Medico.get);
+router.delete('/:id', Medico.delete);
+router.put('/:id', Medico.update);
 
 module.exports = router;

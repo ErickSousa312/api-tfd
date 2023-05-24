@@ -1,4 +1,3 @@
-const { response } = require('express')
 const Processo = require('../models/Processo')
 
 class ProcessoController {
@@ -17,9 +16,10 @@ class ProcessoController {
         }
     }
     async get(req,res){
+        
         try {
-            const {id}= req.parms
-            await Processo.find({_id:id})
+            const {id}= req.params
+            await Processo.findOne({_id:id})
             .then((response)=>{
                 if(!response){
                     return res.status(400).json({msg:"Erro ao buscar o processo"})
@@ -33,7 +33,7 @@ class ProcessoController {
     }
     async delete(req,res){
         try {
-            const {id} = req.parms
+            const {id} = req.params
             await Processo.findOneAndDelete({_id: id}, {new :true})
             .then((response)=>{
                 if(!response){
@@ -48,7 +48,7 @@ class ProcessoController {
     }
     async update(req,res){
         try {
-            const {id} = req.parms
+            const {id} = req.params
             await Processo.findOneAndUpdate({_id: id}, req.body, {new: true})
             .then((response)=>{
                 if(!response){

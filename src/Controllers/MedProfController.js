@@ -41,7 +41,8 @@ class MedProfController {
     }
     async get (req,res){
         try {
-            const {id} = req.parms
+            const {id} = req.params
+            console.log(id)
             await MedProf.find({_id: id})
             .then((medProf)=>{
                 if(!medProf){
@@ -56,7 +57,7 @@ class MedProfController {
     }
     async delete (req,res){
         try {
-            const{id}= req.parms
+            const{id}= req.params
             await MedProf.findOneAndDelete({_id: id}, {new: true})
             .then((medProf)=>{
                 if(!medProf){
@@ -71,7 +72,7 @@ class MedProfController {
     }
     async update (req,res){
         try {
-            const{id}= req.parms
+            const{id}= req.params
             await MedProf.findOneAndUpdate({_id: id}, req.body,{new:true})
             .then((medProf)=>{
                 if(!medProf){
