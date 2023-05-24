@@ -1,4 +1,4 @@
-const AtendAssSocial = require('../models/atendAssSocial')
+const AtendAssSocial = require('../models/AtendAssSocial')
 
 class AtendAssSocialController{
     async post(req, res){

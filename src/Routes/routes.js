@@ -1,6 +1,6 @@
 const cors = require('cors')
 const routes = require('express').Router()
-const teste = require('../Controllers/EleicaoController')
+
 const Paciente = require('../Controllers/PacienteController')
 const Medico = require('../Controllers/MedProfController')
 const Funcionario = require('../Controllers/FuncionarioController')

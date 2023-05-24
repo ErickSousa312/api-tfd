@@ -1,4 +1,4 @@
-const MedProf = require('../models/medProf')
+const MedProf = require('../models/MedProf')
 
 class MedProfController {
     async post(req, res) {

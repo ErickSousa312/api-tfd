@@ -1,4 +1,4 @@
-const Funcionario = require('../models/funcionario');
+const Funcionario = require('../models/Funcionario');
 
 class FuncionarioController{
     async post(req,res){

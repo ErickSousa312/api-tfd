@@ -1,4 +1,4 @@
-const Entidade = require('../models/entidade')
+const Entidade = require('../models/Entidade')
 
 class EntidadeController{
     async post(req, res){

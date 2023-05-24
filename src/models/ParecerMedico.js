@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const MedProfSchema = new mongoose.Schema({
-    ID: { type: Number, default: 1, required: true},
+const ParecerMedSchema = new mongoose.Schema({
+    _id: { type: Number, default: 1, required: true},
     IdPaciente: { type: mongoose.Schema.Types.ObjectId,ref:'Paciente', required: true},
     /*
         -NomePaciente
@@ -19,7 +19,7 @@ const MedProfSchema = new mongoose.Schema({
     Justificativa: { type: String, required: true },
 });
 
-PacienteSchema.pre('save', async function(next) {
+ParecerMedSchema.pre('save', async function(next) {
     if (!this.isNew) {
       return next();
     }
@@ -30,6 +30,6 @@ PacienteSchema.pre('save', async function(next) {
     next();
   });
 
-const ParecerMedico = mongoose.model('ParecerMedico', MedProfSchema);
+const ParecerMedico = mongoose.model('ParecerMedico', ParecerMedSchema);
 
 module.exports = ParecerMedico;
