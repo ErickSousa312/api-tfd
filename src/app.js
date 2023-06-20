@@ -1,4 +1,5 @@
 const express = require('express');
+const configRotas = require('./Routes/routes');
 const cors = require('cors')
 const app = express();
 app.use(
@@ -6,7 +7,6 @@ app.use(
 )
 app.use(express.json())
 app.use(cors())
-const configRotas = require('./Routes/routes');
 
 configRotas(app)
 
