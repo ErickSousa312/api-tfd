@@ -7,4 +7,4 @@ router.get('/:id', AtendAssSocial.get);
 router.delete('/:id', AtendAssSocial.delete);
 router.put('/:id', AtendAssSocial.update);
 
-module.exports = router
+module.exports = router  

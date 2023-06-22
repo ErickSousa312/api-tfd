@@ -1,12 +1,9 @@
-const MongoClient = require('mongodb').MongoClient;
-const app = require('../app')
-
 const mongoose = require('mongoose')
+const app = require('../app')
+require('dotenv').config();
 
-const port = 3000;
-const uri = 'mongodb://127.0.0.1:27017';
-
-const url = `mongodb://127.0.0.1:27017/db-teste'`
+const port = process.env.ServerPort;
+const url = `${process.env.DB_url}`
 
 async function startDB(){
   mongoose.set("strictQuery", true)
@@ -15,7 +12,9 @@ async function startDB(){
   )
   .then(
       console.log('Conectado ao MongoBD!'),
-      app.listen(3000)
+      app.listen(port, ()=>{
+        console.log(`Servidor rodando na porta ${port}`)
+      })
   )
   .catch(
       error=>console.log(error)

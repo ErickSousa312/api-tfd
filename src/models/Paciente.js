@@ -12,6 +12,8 @@ const PacienteSchema = new mongoose.Schema({
     NomeSocial: { type: String },
     Sexo: { type: String, required: true },
     Idade: { type: Number, required: true },
+    raca:{type:String, required: true},
+    cor:{type:String, required: true},
     Sangue: { type: String, maxlength: 3},
     DataCadastro: { type: Date, required: true },
     NomePaiouResponsavel: { type: String },
