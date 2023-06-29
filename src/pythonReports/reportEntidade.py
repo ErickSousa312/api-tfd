@@ -15,7 +15,7 @@ def gerar_relatorio_pdf(dados):
 
     # Cabeçalho
 
-    
+    c.drawString(50, 750, "Oi, integração realizada com sucesso")
 
     # Fechamento do documento PDF
     c.save()
