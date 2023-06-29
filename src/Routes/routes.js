@@ -5,6 +5,7 @@ const EntidadeRoutes = require('./routesModels/entidadeRoutes')
 const AtendAssSocialRoutes = require('./routesModels/atendAssSocialRoutes')
 const ProcessoRoutes = require('./routesModels/processoRoutes')
 const UsuariosRoutes = require('./routesModels/authRoutes')
+const ReportEntidade = require('./routesModels/reportRoutes')
 
 const TokenVerify = require('../AuthJWT/jwtMiddleware')
 
@@ -16,6 +17,7 @@ function configRotas(app) {
     app.use('/atend',TokenVerify, AtendAssSocialRoutes);//ok
     app.use('/processo',TokenVerify, ProcessoRoutes);//ok
     app.use('/login', UsuariosRoutes);//ok
+    app.use('/Report', ReportEntidade)
 }
 
 module.exports = configRotas

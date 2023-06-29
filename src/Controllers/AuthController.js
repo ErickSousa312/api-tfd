@@ -6,6 +6,7 @@ const Usuario = require('../models/Usuários')
 class UsuarioController{
     async signUp (req, res){
          const {userName, password, root} = req.body
+         console.log(userName, password)
          try {
             await Usuario.findOne({userName:userName})
             .then((response)=>{
