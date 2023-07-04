@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const ProcessoSchema = new mongoose.Schema({
     _id : {type:String, default: '1/2023', required: true},
-    IdPaciente: { type: mongoose.Schema.Types.ObjectId,ref:'Paciente', required: true},
+    IdPaciente: { type: Number,ref:'Paciente', required: true},
     /*
         -NomePaciente
         -CPF
@@ -18,12 +18,12 @@ const ProcessoSchema = new mongoose.Schema({
     PrevisaoRetorno: { type: Date, required: true },
     TipoAtendimento: { type: Number, required: true },
     Especialidade: { type: Number, required: true },
-    IdFuncionario: { type: mongoose.Schema.Types.ObjectId,ref:'Funcionario', required: true},
-    IdMedico: { type: mongoose.Schema.Types.ObjectId,ref:'MedProf', required: true},
+    IdFuncionario: { type: Number,ref:'Funcionario', required: true},
+    IdMedico: { type: Number,ref:'MedProf', required: true},
     /*
         -Número CRM
     */
-    Entidade: { type: mongoose.Schema.Types.ObjectId,ref:'Entidade', required: true},
+    Entidade: { type: Number,ref:'Entidade', required: true},
     LocalOrigem: { type: String, required: true },
     CidadeDestino: { type: String, required: true },
     TipoDeslocamento: { type: String, required: true },

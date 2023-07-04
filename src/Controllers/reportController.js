@@ -6,14 +6,12 @@ const path = require('path');
 
 class ReportController{
     async get(req,res){
-
         const {id} = req.params
         await Entidade.findOne({_id : id})
         .then((entidade)=>{
             const entidadeJSON = JSON.stringify(entidade);
             const relatorioPath = path.join(__dirname, 'relatorio.pdf');
             const comando = `python src/pythonReports/reportEntidade.py ${entidadeJSON} ${relatorioPath}`;
-
             exec(comando, (error, stdout, stderr) => {
                 if (error) {
                   console.error(`Erro ao executar o script Python: ${error}`);

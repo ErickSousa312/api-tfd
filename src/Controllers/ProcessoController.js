@@ -16,13 +16,14 @@ class ProcessoController {
         }
     }
     async get(req,res){
-        
         try {
             const {id}= req.params
-            await Processo.findOne({_id:id})
+            console.log(id)
+            await Processo.findOne({_id:"4/2023"}).populate('IdPaciente IdFuncionario IdMedico Entidade')
             .then((response)=>{
+                console.log(response)
                 if(!response){
-                    return res.status(400).json({msg:"Erro ao buscar o processo"})
+                    return res.status(400).json({msg:"Processo não encontrado"})
                 }else{
                     return res.status(200).json({msg:"Processo encontrado com sucesso",data:response})
                 }

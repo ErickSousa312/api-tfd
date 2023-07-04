@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const PacienteSchema = new mongoose.Schema({
     _id: { type: Number, default: 1, required: true},
-    DataNascimento: { type: Number, required: true },
+    DataNascimento: { type: String, required: true },
     numeroCPF: { type: String, required: true },
     orgaoEmissor: { type: String, required: true },
     NumeroCartaoSUS: { type: Number, required: true },
@@ -21,8 +21,10 @@ const PacienteSchema = new mongoose.Schema({
     EstadoCivil: { type: String },
     Endereco: { type: String, required: true },
     Bairro: { type: String, required: true },
-    UfCidade: { type: String, required: true },
+    Cidade: { type: String, required: true },
+    UF: { type: String, required: true },
     CEP: { type: String, required: true },
+    Referencia: { type: String, required: true },
     Celular: [{
         Numero: { type: String, required: true },
     }],
