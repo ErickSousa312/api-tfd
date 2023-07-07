@@ -4,8 +4,9 @@ const PacienteSchema = new mongoose.Schema({
     _id: { type: Number, default: 1, required: true},
     DataNascimento: { type: String, required: true },
     numeroCPF: { type: String, required: true },
+    numeroRG :{type:String, required: true},
     orgaoEmissor: { type: String, required: true },
-    NumeroCartaoSUS: { type: Number, required: true },
+    NumeroCartaoSUS: { type: String, required: true },
     NumeroTituloEleitor: { type: Number, required: true },
     UF: { type: String, required: true, maxlength: 2 },
     NomePaciente: { type: String, required: true },
@@ -27,6 +28,12 @@ const PacienteSchema = new mongoose.Schema({
     Referencia: { type: String, required: true },
     Celular: [{
         Numero: { type: String, required: true },
+    }],
+    Acompanhantes:[{
+      nomeAcompanhante: { type: String,required:true},
+      numeroCPF: { type: String, required: true },
+      numeroRG :{type:String, required: true},
+      DataNascimento: { type: String, required: true },
     }],
     Email: { type: String , required: true},
     identZona: { type: String , required: true},
