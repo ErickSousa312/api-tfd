@@ -63,7 +63,7 @@ dados_paciente = {
         "DataAgendamento": "2023-05-19T10:00:00.000Z",
         "PrevisaoRetorno": "2023-05-20T15:30:00.000Z",
         "TipoAtendimento": 1,
-        "Especialidade": 2,
+        "Especialidade": "Oftamologista",
         "IdFuncionario": {
             "_id": 2,
             "nomeFuncionario": "Nome do Funcionário",
@@ -135,7 +135,7 @@ dados_paciente = {
         },
         "LocalOrigem": "Hospital ABC",
         "CidadeDestino": "São Paulo",
-        "TipoDeslocamento": "Avião",
+        "TipoDeslocamento": "Ambulância",
         "EmpresaTransporte": "Companhia Aérea XYZ",
         "TotalPassagem": "R$500,00",
         "IdentTrajeto": "ABC123XYZ",
@@ -144,6 +144,36 @@ dados_paciente = {
         "createdAt": "2023-05-19T19:12:42.910Z",
         "__v": 0
     }
+
+def ViaDeTransporteX(tipo):
+    if tipo == "Rodoviário":
+        x = 37
+        y = 328
+        return x,y
+    elif tipo == "Aéreo":
+        x = 37
+        y = 315
+        return x,y
+    elif tipo == "Ambulância":
+        x = 112
+        y = 328
+        return x,y
+    elif tipo == "Ferroviário":
+        x = 112
+        y = 315
+        return x,y
+    elif tipo == "UTI Aérea":
+        x = 187
+        y = 328
+        return x,y
+    elif tipo == "UTI Terrestre":
+        x = 187
+        y = 315
+        return x,y
+    # elif tipo == 3:
+    #     # código para o caso 3
+    # else:
+    #     # código para casos não tratados
 
 def CentralizarTexto(text,fontSize,c):
     page_width, page_height = c._pagesize
@@ -163,7 +193,7 @@ def gerar_relatorio_pdf(dados):
     
     # Configurações dos retângulos
     rect_width = 400
-    rect_height = 20
+    rect_height = 14
     rect_margin = 10
     rect_corner_radius = 5
     
@@ -209,7 +239,7 @@ def gerar_relatorio_pdf(dados):
     c.setFont("Helvetica", 10)
     texto = AjustarTexto(str("              Declaro que recebi da Secretaria Municipal de Saúde de Maraba, passagens abaixo relacionadas,\
  referenrentes ao auxilio para tratamento fora do domicilio. Declaro também, ter ciência que as mesmas somente\
- deverão ser utilizadas utilizadas de acordo com as normas estabalecidas pelo Programa de de Tratamento Fora de Domicilio-TFD.\
+ deverão ser utilizadas de acordo com as normas estabalecidas pelo Programa de de Tratamento Fora de Domicilio-TFD.\
      "), 120)
     y=726
     for linha in texto:
@@ -217,14 +247,14 @@ def gerar_relatorio_pdf(dados):
         y -= 11
     #negrito Passagem só serão...
     c.setFont("Helvetica-Bold", 10)
-    c.drawString(30,693,"As passagens só serão serão liberadas na agência de viagem, no horário comercial de segunda a sexta-feira.")
+    c.drawString(30,693,"As passagens só serão liberadas na agência de viagem, no horário comercial de segunda a sexta-feira.")
     
     #14 entre paragrafos
     #11 entre linhas
     
     #E que n poderei....
     c.setFont("Helvetica", 10)
-    texto = AjustarTexto(str("              E que não podei realizar qualquer tipo de exame ou consulta particular mesmo que solicitado por médico da rede SUS,\
+    texto = AjustarTexto(str("              E que não poderei realizar qualquer tipo de exame ou consulta particular mesmo que solicitado por médico da rede SUS,\
  visando pagamento posterior via Secretaria Municipal de Saúde/TFD, pois as normas do TFD não permitem pagamento de tais procedimentos particulares.\
  "), 120)
     y=679
@@ -269,151 +299,175 @@ def gerar_relatorio_pdf(dados):
         y -= 11
     
     
-    # Dados doPaciente
+    # Dados do Paciente
     c.saveState()  # Salva o estado atual do canvas
     c.setFillColorRGB(0.8, 0.8, 0.8)
-    c.roundRect(30, 526, 540, rect_height, rect_corner_radius, stroke=1, fill=1)
+    c.roundRect(30, 532, 540, rect_height, rect_corner_radius, stroke=1, fill=1)
     c.restoreState()  # Restaura o estado anterior do canvas
     c.setFont("Helvetica-Bold", 12)
-    c.drawString(CentralizarTexto("Dados do Paciente",12,c), 532, "Dados do Paciente")
-    
+    c.drawString(CentralizarTexto("Dados do Paciente", 12, c), 535, "Dados do Paciente")
+
     # Nome Paciente
-    c.roundRect(30, 491, 370, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.roundRect(30, 506, 370, rect_height, rect_corner_radius, stroke=1, fill=0)
     c.setFont("Helvetica", 8)
-    c.drawString(35, 513, "Nome Paciente")
-    c.setFont("Helvetica", 10)
-    c.drawString(35, 498, str(dados['IdPaciente']['NomePaciente']))
-    
+    c.drawString(35, 521, "Nome do Paciente")
+    c.setFont("Helvetica", 9)
+    c.drawString(35, 510, str(dados['IdPaciente']['NomePaciente']))
+
     # Numero do Processo TFD
-    c.roundRect(405, 491, 165, rect_height, rect_corner_radius, stroke=1, fill=0)
-    c.setFont("Helvetica-Bold", 8)
-    c.drawString(410, 513, "N° do Processo TFD")
-    c.setFont("Helvetica-Bold", 10)
-    c.drawString(410, 498, str(dados['_id']))
-    
+    c.roundRect(405, 506, 165, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.setFont("Helvetica", 8)
+    c.drawString(410, 521, "N° do Processo TFD")
+    c.setFont("Helvetica-Bold", 9)
+    c.drawString(410, 510, str(dados['_id']))
+
     # N° do RG
-    c.roundRect(30, 456, 70, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.roundRect(30, 482, 70, rect_height, rect_corner_radius, stroke=1, fill=0)
     c.setFont("Helvetica", 8)
-    c.drawString(35, 478, "N° do RG")
-    c.setFont("Helvetica", 10)
-    c.drawString(35, 463, str(dados['IdPaciente']['numeroRG']))
-    
-    #Numero CPF
-    c.roundRect(105, 456, 110, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.drawString(35, 497, "N° do RG")
+    c.setFont("Helvetica", 9)
+    c.drawString(35, 486, str(dados['IdPaciente']['numeroRG']))
+
+    # Numero CPF
+    c.roundRect(105, 482, 110, rect_height, rect_corner_radius, stroke=1, fill=0)
     c.setFont("Helvetica", 8)
-    c.drawString(110, 478, "N° do CPF")
-    c.setFont("Helvetica", 10)
-    c.drawString(110, 463, str(dados['IdPaciente']['numeroCPF']))
-    
-    #Data de Nascimento
-    c.roundRect(220, 456, 100, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.drawString(110, 497, "N° do CPF")
+    c.setFont("Helvetica", 9)
+    c.drawString(110, 486, str(dados['IdPaciente']['numeroCPF']))
+
+    # Data de Nascimento
+    c.roundRect(220, 482, 100, rect_height, rect_corner_radius, stroke=1, fill=0)
     c.setFont("Helvetica", 8)
-    c.drawString(225, 478, "Data de Nascimento")
-    c.setFont("Helvetica", 10)
-    c.drawString(225, 463, str(dados['IdPaciente']['DataNascimento']))
-    
-    #N° telefone 1
-    c.roundRect(325, 456, 120, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.drawString(225, 497, "Data de Nascimento")
+    c.setFont("Helvetica", 9)
+    c.drawString(225, 486, str(dados['IdPaciente']['DataNascimento']))
+
+    # N° telefone 1
+    c.roundRect(325, 482, 120, rect_height, rect_corner_radius, stroke=1, fill=0)
     c.setFont("Helvetica", 8)
-    c.drawString(330, 478, "telefone 1")
-    c.setFont("Helvetica", 10)
-    c.drawString(330, 463, str(dados['IdPaciente']['Celular'][0]['Numero']))
-    
-    #N° telefone 2
-    c.roundRect(450, 456, 120, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.drawString(330, 497, "telefone 1")
+    c.setFont("Helvetica", 9)
+    c.drawString(330, 486, str(dados['IdPaciente']['Celular'][0]['Numero']))
+
+    # N° telefone 2
+    c.roundRect(450, 482, 120, rect_height, rect_corner_radius, stroke=1, fill=0)
     c.setFont("Helvetica", 8)
-    c.drawString(455, 478, "telefone 2")
-    c.setFont("Helvetica", 10)
-    c.drawString(455, 463, str(dados['IdPaciente']['Celular'][0]['Numero']))
-    
-    #Volcher paciente
-    c.roundRect(30, 421, 320, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.drawString(455, 497, "telefone 2")
+    c.setFont("Helvetica", 9)
+    c.drawString(455, 486, str(dados['IdPaciente']['Celular'][0]['Numero']))
+
+    # Volcher paciente
+    c.roundRect(30, 458, 320, rect_height, rect_corner_radius, stroke=1, fill=0)
     c.setFont("Helvetica", 8)
-    c.drawString(35, 443, "N° Volcher(S) do Paciente")
-    c.setFont("Helvetica", 10)
-    c.drawString(35, 428, str())
-    
-    #Numero do cartão sus
-    c.roundRect(355, 421, 215, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.drawString(35, 473, "N° Volcher(S) do Paciente")
+    c.setFont("Helvetica", 9)
+    c.drawString(35, 462, str())
+
+    # Numero do cartão sus
+    c.roundRect(355, 458, 215, rect_height, rect_corner_radius, stroke=1, fill=0)
     c.setFont("Helvetica-Bold", 8)
-    c.drawString(360, 443, "N° Cartão SUS")
-    c.setFont("Helvetica-Bold", 10)
-    c.drawString(360, 428, str(dados['IdPaciente']['NumeroCartaoSUS']))
-    
-    #Nome do acompanhante
+    c.drawString(360, 473, "N° Cartão SUS")
+    c.setFont("Helvetica-Bold", 9)
+    c.drawString(360, 462, str(dados['IdPaciente']['NumeroCartaoSUS']))
+
+    # Nome do acompanhante
+    c.roundRect(30, 434, 540, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.setFont("Helvetica", 8)
+    c.drawString(35, 449, "Nome do acompanhante")
+    c.setFont("Helvetica", 9)
+    c.drawString(35, 438, str(dados['IdPaciente']['Acompanhantes'][0]['nomeAcompanhante']))
+
+    # Numero do rg Acomp
+    c.roundRect(30, 410, 115, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.setFont("Helvetica", 8)
+    c.drawString(35, 425, "Numero RG(Acompanhante)")
+    c.setFont("Helvetica", 9)
+    c.drawString(35, 414, str(dados['IdPaciente']['Acompanhantes'][0]['numeroRG']))
+
+    # Numero do CPF Acomp
+    c.roundRect(150, 410, 90, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.setFont("Helvetica", 8)
+    c.drawString(155, 425, "N° do CPF")
+    c.setFont("Helvetica", 9)
+    c.drawString(155, 414, str(dados['IdPaciente']['Acompanhantes'][0]['numeroCPF']))
+
+    # Data Nascimento
+    c.roundRect(245, 410, 105, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.setFont("Helvetica", 8)
+    c.drawString(250, 425, "Data Nascimento")
+    c.setFont("Helvetica", 9)
+    c.drawString(250, 414, str(dados['IdPaciente']['Acompanhantes'][0]['numeroCPF']))
+
+    # Numero do Cartão SUS
+    c.roundRect(355, 410, 215, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.setFont("Helvetica-Bold", 8)
+    c.drawString(360, 425, "N° do Cartão SUS")
+    c.setFont("Helvetica-Bold", 9)
+    c.drawString(360, 414, str(dados['IdPaciente']['Acompanhantes'][0]['numeroCPF']))
+
+    # Numero Volcher acompanhante
     c.roundRect(30, 386, 540, rect_height, rect_corner_radius, stroke=1, fill=0)
     c.setFont("Helvetica", 8)
-    c.drawString(35, 408, "Nome do acompanhante")
-    c.setFont("Helvetica", 10)
-    c.drawString(35, 393, str(dados['IdPaciente']['Acompanhantes'][0]['nomeAcompanhante']))    
-    
-    #Numero do rg
-    c.roundRect(30, 351, 115, rect_height, rect_corner_radius, stroke=1, fill=0)
-    c.setFont("Helvetica", 8)
-    c.drawString(35, 373, "Numero RG(Acompanhante)")
-    c.setFont("Helvetica", 10)
-    c.drawString(35, 358, str(dados['IdPaciente']['Acompanhantes'][0]['numeroRG']))    
-    
-    #Numero do rg
-    c.roundRect(150, 351, 90, rect_height, rect_corner_radius, stroke=1, fill=0)
-    c.setFont("Helvetica", 8)
-    c.drawString(155, 373, "N° do CPF")
-    c.setFont("Helvetica", 10)
-    c.drawString(155, 358, str(dados['IdPaciente']['Acompanhantes'][0]['numeroCPF']))    
-    
-    #Data Nascimento
-    c.roundRect(245, 351, 105, rect_height, rect_corner_radius, stroke=1, fill=0)
-    c.setFont("Helvetica", 8)
-    c.drawString(250, 373, "Data Nascimento")
-    c.setFont("Helvetica", 10)
-    c.drawString(250, 358, str(dados['IdPaciente']['Acompanhantes'][0]['numeroCPF']))    
-    
-    #Numero do Cartão SUS
-    c.roundRect(355, 351, 215, rect_height, rect_corner_radius, stroke=1, fill=0)
-    c.setFont("Helvetica-Bold", 8)
-    c.drawString(360, 373, "N° do Cartão SUS")
-    c.setFont("Helvetica-Bold", 10)
-    c.drawString(360, 358, str(dados['IdPaciente']['Acompanhantes'][0]['numeroCPF']))    
-    
-    #Numero Volcher acompanhante
-    c.roundRect(30, 316, 540, rect_height, rect_corner_radius, stroke=1, fill=0)
-    c.setFont("Helvetica", 8)
-    c.drawString(35, 338, "N° Volcher(S) Acompanhante")
-    c.setFont("Helvetica", 10)
-    c.drawString(35, 323, str())  
-    
-    #Endereço Paciente
+    c.drawString(35, 401, "N° Volcher(S) Acompanhante")
+    c.setFont("Helvetica", 9)
+    c.drawString(35, 390, str())
 
-    c.roundRect(30, 261, 540, 40, rect_corner_radius, stroke=1, fill=0)
+    # Endereço Paciente
+    c.roundRect(30, 348, 540, 28, rect_corner_radius, stroke=1, fill=0)
     c.setFont("Helvetica", 8)
-    c.drawString(35, 303, "Endereço")
-    c.setFont("Helvetica", 10)
-    texto = AjustarTexto(str (dados['IdPaciente']['Endereco'] + " / CEP: " + dados['IdPaciente']['CEP']), 110)
-    y=288
+    c.drawString(35, 377, "Endereço")
+    c.setFont("Helvetica", 9)
+    texto = AjustarTexto(str(dados['IdPaciente']['Endereco'] + " / CEP: " + dados['IdPaciente']['CEP']), 110)
+    y = 366
     for linha in texto:
         c.drawString(35, y, str(linha))
         y -= 11
-    
-    #Via de transporte
-    c.roundRect(30, 206, 540, 40, rect_corner_radius, stroke=1, fill=0)
+
+    # Via de transporte
+    c.roundRect(30, 310, 240, 28, rect_corner_radius, stroke=1, fill=0)
     c.setFont("Helvetica", 8)
-    c.drawString(35, 248, "Via de transporte")
+    c.drawString(35, 339, "Via de Transporte")
     
+    # Quadrados
+    c.roundRect(35, 326, 9, 9, 2, stroke=1, fill=0)
+    c.drawString(46, 328, "Rodoviário")
+    c.roundRect(35, 313, 9, 9, 2, stroke=1, fill=0)
+    c.drawString(46, 315, "Aério")
+    
+    c.roundRect(110, 326, 9, 9, 2, stroke=1, fill=0)
+    c.drawString(121, 328, "Ambulância")
+    c.roundRect(110, 313, 9, 9, 2, stroke=1, fill=0)
+    c.drawString(121, 315, "Ferroviário")
+    
+    c.roundRect(185, 326, 9, 9, 2, stroke=1, fill=0)
+    c.drawString(196, 328, "UTI Aérea")
+    c.roundRect(185, 313, 9, 9, 2, stroke=1, fill=0)
+    c.drawString(196, 315, "UTI Terrestre")
+    
+    # Lógica para o X 
+    
+    x,y = ViaDeTransporteX(str(dados['TipoDeslocamento']).strip())
+    c.setFont("Helvetica-Bold", 8)
+    c.drawString(x, y, "X")
+    
+    
+    
+    
+    # Dados do Processo
+    c.saveState()  # Salva o estado atual do canvas
+    c.setFillColorRGB(0.8, 0.8, 0.8)
+    c.roundRect(30, 286, 540, rect_height, rect_corner_radius, stroke=1, fill=1)
+    c.restoreState()  # Restaura o estado anterior do canvas
+    c.setFont("Helvetica-Bold", 12)
+    c.drawString(CentralizarTexto("Dados do Processo", 12, c), 289, "Dados do Processo")
+
     
     # #Nome de acompanhante
     # c.roundRect(30, 421, 120, rect_height, rect_corner_radius, stroke=1, fill=0)
     # c.setFont("Helvetica", 8)
     # c.drawString(35, 443, "Nome do ")
     # c.setFont("Helvetica", 10)
-    # c.drawString(35, 428, str(dados['IdPaciente']['Acompanhantes'][0]['nomeAcompanhante']))
-    
-    
-    
-    
-    
-
-    
-    
+    # c.drawString(35, 428, str(dados['IdPaciente']['Acompanhantes'][0]['nomeAcompanhante'])) 
     
     # # Nome Paciente
     # c.roundRect(30, 700, 330, rect_height, rect_corner_radius, stroke=1, fill=0)
