@@ -25,10 +25,14 @@ const ProcessoSchema = new mongoose.Schema({
     */
     Entidade: { type: Number,ref:'Entidade', required: true},
     LocalOrigem: { type: String, required: true },
-    CidadeDestino: { type: String, required: true },
+    LocalAtendimento: {type:String, required: true},
+    Destino: { type: String, required: true },
     TipoDeslocamento: { type: String, required: true },
     EmpresaTransporte:{ type: String, required: true },
-    TotalPassagem:{type:String, required: true},
+    TotalPassagem:{
+        ida:{type:Number, maxlength:3},
+        volta:{type:Number, maxlength:3}
+    },
     IdentTrajeto:{type: String, required: true},
     ObsAtendimento:{type: String, required: true},
     ObsPassagemAerea:{type: String, required: true},

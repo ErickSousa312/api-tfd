@@ -7,6 +7,8 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import Paragraph, Spacer, SimpleDocTemplate
 from reportlab.platypus import Table, TableStyle
 import textwrap
+import datetime
+import locale
 
 import os
 # Dados do paciente
@@ -15,9 +17,9 @@ dados_paciente = {
         "IdPaciente": {
             "_id": 1,
             "DataNascimento": "16/06/2001",
-            "numeroCPF": "123.456.789-01",
-            "numeroRG" : "8260336",
-            "orgaoEmissor": "SSP",
+            "NumeroCPF": "123.456.789-01",
+            "NumeroRG" : "8260336",
+            "OrgaoEmissor": "SSP",
             "NumeroCartaoSUS": "124.2541.2548.2415",
             "NumeroTituloEleitor": 12345,
             "UF": "SP",
@@ -45,8 +47,8 @@ dados_paciente = {
             "Acompanhantes": [
                 {
                     "nomeAcompanhante": "Maria Oliveira",
-                    "numeroCPF": "123.456.789-01",
-                    "numeroRG": "8260336",
+                    "NumeroCPF": "123.456.789-01",
+                    "NumeroRG": "8260336",
                     "DataNascimento": "16/06/2001",
                     "_id": "6464f2a90d7165b8d1a1a4b7"
                 }
@@ -60,9 +62,9 @@ dados_paciente = {
             "__v": 0
         },
         "DataViagem": 1654321000,
-        "DataAgendamento": "2023-05-19T10:00:00.000Z",
-        "PrevisaoRetorno": "2023-05-20T15:30:00.000Z",
-        "TipoAtendimento": 1,
+        "DataAgendamento": "01/12/2023",
+        "PrevisaoRetorno": "20/12/2023",
+        "TipoAtendimento": "consulta-médica",
         "Especialidade": "Oftamologista",
         "IdFuncionario": {
             "_id": 2,
@@ -133,11 +135,15 @@ dados_paciente = {
             ],
             "__v": 0
         },
-        "LocalOrigem": "Hospital ABC",
-        "CidadeDestino": "São Paulo",
+        "LocalOrigem": "Marabá",
+        "LocalAtendimento": "hiroshi Matsuda",
+        "Destino": "São Paulo",
         "TipoDeslocamento": "Ambulância",
         "EmpresaTransporte": "Companhia Aérea XYZ",
-        "TotalPassagem": "R$500,00",
+        "TotalPassagem": {
+            "ida": 2,
+            "volta": 2
+        },
         "IdentTrajeto": "ABC123XYZ",
         "ObsAtendimento": "Nesse exemplo, o texto será ajustado para caber na largura especificada usando a função textwrap fill. Em seguida, o texto ajustado é dividido em várias ",
         "ObsPassagemAerea": "Preferência por janela",
@@ -191,11 +197,16 @@ def gerar_relatorio_pdf(dados):
     # Configuração do documento PDF
     c = canvas.Canvas(caminho_completo, pagesize=A4)
     
-    # Configurações dos retângulos
+    # Configurar o idioma para português brasileiro
+    locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
+    
+    # Configurações dos retângulos e data
     rect_width = 400
     rect_height = 14
     rect_margin = 10
     rect_corner_radius = 5
+    data_atual = datetime.date.today()
+    data_formatada = data_atual.strftime("%d de %B de %Y")
     
 #Cabeçalho
     c.roundRect(30, 773, 540, 50, rect_corner_radius, stroke=1, fill=0)
@@ -299,7 +310,7 @@ def gerar_relatorio_pdf(dados):
         y -= 11
     
     
-    # Dados do Paciente
+    # Dados do Paciente --------------------------------------------------------------------------
     c.saveState()  # Salva o estado atual do canvas
     c.setFillColorRGB(0.8, 0.8, 0.8)
     c.roundRect(30, 532, 540, rect_height, rect_corner_radius, stroke=1, fill=1)
@@ -308,6 +319,7 @@ def gerar_relatorio_pdf(dados):
     c.drawString(CentralizarTexto("Dados do Paciente", 12, c), 535, "Dados do Paciente")
 
     # Nome Paciente
+    c.setLineWidth(0.7)
     c.roundRect(30, 506, 370, rect_height, rect_corner_radius, stroke=1, fill=0)
     c.setFont("Helvetica", 8)
     c.drawString(35, 521, "Nome do Paciente")
@@ -326,14 +338,14 @@ def gerar_relatorio_pdf(dados):
     c.setFont("Helvetica", 8)
     c.drawString(35, 497, "N° do RG")
     c.setFont("Helvetica", 9)
-    c.drawString(35, 486, str(dados['IdPaciente']['numeroRG']))
+    c.drawString(35, 486, str(dados['IdPaciente']['NumeroRG']))
 
     # Numero CPF
     c.roundRect(105, 482, 110, rect_height, rect_corner_radius, stroke=1, fill=0)
     c.setFont("Helvetica", 8)
     c.drawString(110, 497, "N° do CPF")
     c.setFont("Helvetica", 9)
-    c.drawString(110, 486, str(dados['IdPaciente']['numeroCPF']))
+    c.drawString(110, 486, str(dados['IdPaciente']['NumeroCPF']))
 
     # Data de Nascimento
     c.roundRect(220, 482, 100, rect_height, rect_corner_radius, stroke=1, fill=0)
@@ -382,28 +394,28 @@ def gerar_relatorio_pdf(dados):
     c.setFont("Helvetica", 8)
     c.drawString(35, 425, "Numero RG(Acompanhante)")
     c.setFont("Helvetica", 9)
-    c.drawString(35, 414, str(dados['IdPaciente']['Acompanhantes'][0]['numeroRG']))
+    c.drawString(35, 414, str(dados['IdPaciente']['Acompanhantes'][0]['NumeroRG']))
 
     # Numero do CPF Acomp
     c.roundRect(150, 410, 90, rect_height, rect_corner_radius, stroke=1, fill=0)
     c.setFont("Helvetica", 8)
     c.drawString(155, 425, "N° do CPF")
     c.setFont("Helvetica", 9)
-    c.drawString(155, 414, str(dados['IdPaciente']['Acompanhantes'][0]['numeroCPF']))
+    c.drawString(155, 414, str(dados['IdPaciente']['Acompanhantes'][0]['NumeroCPF']))
 
     # Data Nascimento
     c.roundRect(245, 410, 105, rect_height, rect_corner_radius, stroke=1, fill=0)
     c.setFont("Helvetica", 8)
     c.drawString(250, 425, "Data Nascimento")
     c.setFont("Helvetica", 9)
-    c.drawString(250, 414, str(dados['IdPaciente']['Acompanhantes'][0]['numeroCPF']))
+    c.drawString(250, 414, str(dados['IdPaciente']['Acompanhantes'][0]['NumeroCPF']))
 
-    # Numero do Cartão SUS
+    # Numero do Cartão SUS Acompanhante
     c.roundRect(355, 410, 215, rect_height, rect_corner_radius, stroke=1, fill=0)
     c.setFont("Helvetica-Bold", 8)
-    c.drawString(360, 425, "N° do Cartão SUS")
+    c.drawString(360, 425, "N° do Cartão SUS do Acompanhante")
     c.setFont("Helvetica-Bold", 9)
-    c.drawString(360, 414, str(dados['IdPaciente']['Acompanhantes'][0]['numeroCPF']))
+    c.drawString(360, 414, str(dados['IdPaciente']['Acompanhantes'][0]['NumeroCPF']))
 
     # Numero Volcher acompanhante
     c.roundRect(30, 386, 540, rect_height, rect_corner_radius, stroke=1, fill=0)
@@ -450,17 +462,106 @@ def gerar_relatorio_pdf(dados):
     c.setFont("Helvetica-Bold", 8)
     c.drawString(x, y, "X")
     
+    # Via de transporte
+    c.roundRect(275, 310,295 , 28, rect_corner_radius, stroke=1, fill=0)
+    c.setFont("Helvetica", 8)
+    c.drawString(280, 339, "Empresa de Transporte")
+    c.drawString(280, 326, str(dados['EmpresaTransporte']))
     
-    
-    
-    # Dados do Processo
+    # Dados do Processo -----------------------------------------------------------------------------------------
     c.saveState()  # Salva o estado atual do canvas
     c.setFillColorRGB(0.8, 0.8, 0.8)
+    c.setLineWidth(1)
     c.roundRect(30, 286, 540, rect_height, rect_corner_radius, stroke=1, fill=1)
     c.restoreState()  # Restaura o estado anterior do canvas
     c.setFont("Helvetica-Bold", 12)
     c.drawString(CentralizarTexto("Dados do Processo", 12, c), 289, "Dados do Processo")
 
+    
+    # Tipo de Atendimento / Consulta
+    c.setLineWidth(0.7)
+    c.roundRect(30, 262, 135, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.setFont("Helvetica", 8)
+    c.drawString(35, 277, "Tipo de Atendimento / consulta")
+    c.setFont("Helvetica", 9)
+    c.drawString(35, 266, str(dados['TipoAtendimento']))
+    
+    # Especialidade
+    c.roundRect(170, 262, 200, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.setFont("Helvetica", 8)
+    c.drawString(175, 277, "Especialidade")
+    c.setFont("Helvetica", 9)
+    c.drawString(175, 266, str(dados['Especialidade']))
+    
+    # Data do agendamento
+    c.roundRect(435, 262, 95, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.setFont("Helvetica", 8)
+    c.drawString(440, 277, "Data Agendamento")
+    c.setFont("Helvetica", 9)
+    c.drawString(440, 266, str(dados['DataAgendamento']))
+    
+    # Quantidade de passagens
+    c.roundRect(30, 224, 135, 28, rect_corner_radius, stroke=1, fill=0)
+    c.setFont("Helvetica", 8)
+    c.drawString(35, 253, "Quantidade de passagens")
+    c.setFont("Helvetica", 9)
+    c.drawString(35, 242, "("+ str(dados['TotalPassagem']['ida']+dados['TotalPassagem']['volta'])+ ") Passagem(ns)")
+    c.drawString(35, 229, "("+ str(dados['TotalPassagem']['ida'])+ ") Idas /")
+    c.drawString(70, 229, " ("+ str(dados['TotalPassagem']['volta'])+ ") Voltas")
+    
+    # Local de Origem
+    c.roundRect(170, 238, 200, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.setFont("Helvetica", 8)
+    c.drawString(175, 253, "Local de Origem")
+    c.setFont("Helvetica", 9)
+    c.drawString(175, 242, str(dados['LocalOrigem']))
+    
+    # Local de Origem
+    c.roundRect(375, 238, 195, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.setFont("Helvetica", 8)
+    c.drawString(380, 253, "Local de Destino")
+    c.setFont("Helvetica", 9)
+    c.drawString(380, 242, str(dados['Destino']))
+    
+    # Local de Atendimento (Unidade de Saúde)
+    c.roundRect(170, 214, 400, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.setFont("Helvetica", 8)
+    c.drawString(175, 229, "Local de Atendimento (Unidade de Saúde)")
+    c.setFont("Helvetica", 9)
+    c.drawString(175, 218, str(dados['LocalAtendimento']))    
+    
+    # Observação
+    c.roundRect(30, 162, 540, 40, rect_corner_radius, stroke=1, fill=0)
+    c.setFont("Helvetica", 8)
+    c.drawString(35, 203, str("Observações"))
+    
+    # Assinaturas
+    c.roundRect(30, 97, 540, 60, rect_corner_radius, stroke=1, fill=0)
+    c.setFont("Helvetica", 10)
+    c.drawString(435, 147, "Mabará, " + str(data_formatada))
+    
+    c.setFont("Helvetica-Bold", 6)
+    c.drawString(95, 107, str(dados['IdPaciente']['NomePaciente'])+" - N° CPF " + str(dados['IdPaciente']['NumeroCPF']))
+    c.rect(50, 115, 230, 0.05, stroke=1, fill=1)
+
+    c.setFont("Helvetica-Bold", 6)
+    c.drawString(365, 107, str(dados['IdPaciente']['Acompanhantes'][0]['nomeAcompanhante'])+" - N° CPF " + str(dados['IdPaciente']['Acompanhantes'][0]['NumeroCPF']))
+    c.rect(320, 115, 230, 0.05, stroke=1, fill=1)
+    
+    
+    
+    
+    # Dados Atendimento
+    c.roundRect(30, 18, 540, 65, rect_corner_radius, stroke=1, fill=0)
+    c.setFont("Helvetica-Bold", 12)
+    c.drawString(CentralizarTexto("Dados do Atendimento",12,c), 73, "Dados do Atendimento")
+
+    # Nome funcionario
+    c.roundRect(34, 22, 135, 28, rect_corner_radius, stroke=1, fill=0)
+    c.setFont("Helvetica", 8)
+    c.drawString(35, 253, "Quantidade de passagens")
+    
+    
     
     # #Nome de acompanhante
     # c.roundRect(30, 421, 120, rect_height, rect_corner_radius, stroke=1, fill=0)
