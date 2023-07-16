@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const PacienteSchema = new mongoose.Schema({
     _id: { type: Number, default: 1, required: true},
     DataNascimento: { type: String, required: true },
-    numeroCPF: { type: String, required: true },
-    numeroRG :{type:String, required: true},
-    orgaoEmissor: { type: String, required: true },
+    NumeroCPF: { type: String, required: true },
+    NumeroRG :{type:String, required: true},
+    OrgaoEmissor: { type: String, required: true },
     NumeroCartaoSUS: { type: String, required: true },
     NumeroTituloEleitor: { type: Number, required: true },
     UF: { type: String, required: true, maxlength: 2 },
