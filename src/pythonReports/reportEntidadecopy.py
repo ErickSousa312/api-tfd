@@ -46,7 +46,7 @@ dados_paciente = {
             ],
             "Acompanhantes": [
                 {
-                    "nomeAcompanhante": "Maria Oliveira",
+                    "nomeAcompanhante": "Maria Oliveira do Carmo de Sandra Oliveira",
                     "NumeroCPF": "123.456.789-01",
                     "NumeroRG": "8260336",
                     "DataNascimento": "16/06/2001",
@@ -192,6 +192,12 @@ def AjustarTexto(texto, width2):
     linhas = texto_ajustado.split('\n')
     return linhas
 
+# alinha o nome da pessoa a linha de assinatura na parte inferior do documento
+def alinharAssinatura(texto,rect_x, rect_width , c):
+    text_width = c.stringWidth(texto, "Helvetica-Bold", 6)
+    x = rect_x + (rect_width - text_width) / 2
+    return x
+
 def gerar_relatorio_pdf(dados):
     caminho_completo = os.path.join(os.path.dirname(__file__), 'teste.pdf')
     # Configuração do documento PDF
@@ -207,6 +213,8 @@ def gerar_relatorio_pdf(dados):
     rect_corner_radius = 5
     data_atual = datetime.date.today()
     data_formatada = data_atual.strftime("%d de %B de %Y")
+    data_formatada_numero = data_atual.strftime("%d/%m/%Y")
+
     
 #Cabeçalho
     c.roundRect(30, 773, 540, 50, rect_corner_radius, stroke=1, fill=0)
@@ -236,9 +244,10 @@ def gerar_relatorio_pdf(dados):
     # Label Principal
     #c.saveState()  # Salva o estado atual do canvas
     #c.setFillColorRGB(0.8, 0.8, 0.8)
-    c.rect(220, 741, 160, 0.3, stroke=1, fill=1)
+    c.rect(220, 741, 160, 0.9, stroke=0, fill=1)
     
     #c.restoreState()  # Restaura o estado anterior do canvas
+    
     c.setFont("Helvetica-Bold", 12)
     text = "Declaração de Passagem"
     c.drawString(CentralizarTexto(text,12,c), 745, text)
@@ -540,26 +549,44 @@ def gerar_relatorio_pdf(dados):
     c.setFont("Helvetica", 10)
     c.drawString(435, 147, "Mabará, " + str(data_formatada))
     
+    texto = str(dados['IdPaciente']['NomePaciente'])+" - N° CPF " + str(dados['IdPaciente']['NumeroCPF'])
+    x = alinharAssinatura(texto,50,230, c)
     c.setFont("Helvetica-Bold", 6)
-    c.drawString(95, 107, str(dados['IdPaciente']['NomePaciente'])+" - N° CPF " + str(dados['IdPaciente']['NumeroCPF']))
+    c.drawString(x, 108, str(dados['IdPaciente']['NomePaciente'])+" - N° CPF " + str(dados['IdPaciente']['NumeroCPF']))
+    c.drawString(120, 101, "Assinatura do(a) acompanhante")
     c.rect(50, 115, 230, 0.05, stroke=1, fill=1)
 
+    texto = str(dados['IdPaciente']['Acompanhantes'][0]['nomeAcompanhante'])+" - N° CPF " + str(dados['IdPaciente']['Acompanhantes'][0]['NumeroCPF'])
+    x = alinharAssinatura(texto,320,230, c)
     c.setFont("Helvetica-Bold", 6)
-    c.drawString(365, 107, str(dados['IdPaciente']['Acompanhantes'][0]['nomeAcompanhante'])+" - N° CPF " + str(dados['IdPaciente']['Acompanhantes'][0]['NumeroCPF']))
+    c.drawString(x, 108, str(dados['IdPaciente']['Acompanhantes'][0]['nomeAcompanhante'])+" - N° CPF " + str(dados['IdPaciente']['Acompanhantes'][0]['NumeroCPF']))
+    c.drawString(390, 101, "Assinatura do(a) acompanhante")
     c.rect(320, 115, 230, 0.05, stroke=1, fill=1)
     
     
+    c.setFont("Helvetica-Bold", 9)
+    c.drawString(145, 87, "Telefones de Contato TFD: (094)99134-5052 (VIVO) (094)98114-7837 (TIM)")
     
     
+  
     # Dados Atendimento
     c.roundRect(30, 18, 540, 65, rect_corner_radius, stroke=1, fill=0)
     c.setFont("Helvetica-Bold", 12)
     c.drawString(CentralizarTexto("Dados do Atendimento",12,c), 73, "Dados do Atendimento")
 
     # Nome funcionario
-    c.roundRect(34, 22, 135, 28, rect_corner_radius, stroke=1, fill=0)
+    c.roundRect(34, 22, 300, 47, rect_corner_radius, stroke=1, fill=0)
     c.setFont("Helvetica", 8)
-    c.drawString(35, 253, "Quantidade de passagens")
+    c.drawString(38, 61, "Nome do funcionário responsável pleo atendimento: ")
+    c.setFont("Helvetica", 10)
+    c.drawString(38, 25, "Atendente TFD de marabá ")
+    
+    # Data do atendimento
+    c.roundRect(465, 48, 85, rect_height, rect_corner_radius, stroke=1, fill=0)
+    c.setFont("Helvetica", 8)
+    c.drawString(470, 63, "Data do Atendimento")
+    c.setFont("Helvetica", 9)
+    c.drawString(470, 52, str(data_formatada_numero))
     
     
     
