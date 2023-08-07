@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 require('dotenv').config();
 
-function jwtMiddleware(req,res, next){
+function jwtVerify(req,res){
     const headerToken = req.headers.authorization
     if(!headerToken){
         return res.status(401).send({error: 'Token não informado'})
@@ -11,11 +11,10 @@ function jwtMiddleware(req,res, next){
         if (err) {
             return res.status(401).json({msg:"Token Inválido", error: err})
           } else {
-            console.log(decoded)
             req.userData = decoded
-            next();
+            return res.status(200).json({msg:'Token Válido', data: req.userData})
           }
     })
 }
 
-module.exports = jwtMiddleware
+module.exports = jwtVerify

@@ -13,7 +13,6 @@ const MedProfSchema = new mongoose.Schema({
     Especialidades: [{
         Nome: { type: String }
     }],
-    DataNascimento: { type: String, required: true },
     CentroDeSaude: { type: String, required: true },
     DataCadastro: { type: String, required: true },
     Afastamento: { type: String }

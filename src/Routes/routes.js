@@ -7,16 +7,18 @@ const ProcessoRoutes = require('./routesModels/processoRoutes')
 const UsuariosRoutes = require('./routesModels/authRoutes')
 const ReportEntidade = require('./routesModels/reportRoutes')
 
-const TokenVerify = require('../AuthJWT/jwtMiddleware')
+const TokenJWTmiddleware = require('../AuthJWT/jwtMiddleware')
+const TokenVerify = require('../AuthJWT/jwtVerify')
 
 function configRotas(app) {
-    app.use('/paciente',TokenVerify, PacienteRoutes);//ok
-    app.use('/med',TokenVerify, MedicoRoutes);//ok
-    app.use('/func',TokenVerify, FuncionariosRoutes);//ok
-    app.use('/entid',TokenVerify, EntidadeRoutes);//ok
-    app.use('/atend',TokenVerify, AtendAssSocialRoutes);//ok
-    app.use('/processo',TokenVerify, ProcessoRoutes);//ok
+    app.use('/paciente',TokenJWTmiddleware, PacienteRoutes);//ok
+    app.use('/med',TokenJWTmiddleware, MedicoRoutes);//ok
+    app.use('/func',TokenJWTmiddleware, FuncionariosRoutes);//ok
+    app.use('/entid',TokenJWTmiddleware, EntidadeRoutes);//ok
+    app.use('/atend',TokenJWTmiddleware, AtendAssSocialRoutes);//ok
+    app.use('/processo',TokenJWTmiddleware, ProcessoRoutes);//ok
     app.use('/login', UsuariosRoutes);//ok
+    app.use('/verifyToken', TokenVerify)
     app.use('/Report', ReportEntidade)
 }
 

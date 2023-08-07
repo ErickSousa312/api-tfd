@@ -8,7 +8,6 @@ const EntidadeSchema = new mongoose.Schema({
     Especialidades: [{
         Nome: { type: String, required: true }
     }],
-    
 });
 
 EntidadeSchema.pre('save', async function(next) {

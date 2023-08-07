@@ -3,16 +3,6 @@ const mongoose = require('mongoose');
 const ProcessoSchema = new mongoose.Schema({
     _id : {type:String, default: '1/2023', required: true},
     IdPaciente: { type: Number,ref:'Paciente', required: true},
-    /*
-        -NomePaciente
-        -CPF
-        -Idade
-        -Endereço
-        -Celular
-        -Sexo
-        -Menor de Idade
-        -Acompanhante
-    */
     DataViagem: { type: Number },
     DataAgendamento: { type: Date, required: true },
     PrevisaoRetorno: { type: Date, required: true },
@@ -20,9 +10,6 @@ const ProcessoSchema = new mongoose.Schema({
     Especialidade: { type: Number, required: true },
     IdFuncionario: { type: Number,ref:'Funcionario', required: true},
     IdMedico: { type: Number,ref:'MedProf', required: true},
-    /*
-        -Número CRM
-    */
     Entidade: { type: Number,ref:'Entidade', required: true},
     LocalOrigem: { type: String, required: true },
     LocalAtendimento: {type:String, required: true},

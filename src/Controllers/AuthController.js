@@ -35,6 +35,7 @@ class UsuarioController{
     }
     async signIn(req, res){
         const {userName, password} = req.body
+        console.log(userName, password)
         try {
             await Usuario.findOne({userName: userName})
             .then((response)=>{
@@ -49,7 +50,7 @@ class UsuarioController{
                                 if(err){
                                     return res.status(400).json({msg:"Erro ao gerar token"})
                                 }else{
-                                    return res.status(201).json({token})
+                                    return res.status(201).json({id: response._id,userName: response.userName, token: token})
                                 }
                             });
                         }
