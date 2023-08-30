@@ -22,7 +22,7 @@ dados_paciente = {
             "OrgaoEmissor": "SSP",
             "NumeroCartaoSUS": "124.2541.2548.2415",
             "NumeroTituloEleitor": 12345,
-            "UF": "SP",
+            "eleitorUF": "SP",
             "NomePaciente": "João da Silva",
             "NomeSocial": "",
             "Sexo": "Masculino",
@@ -198,6 +198,8 @@ def alinharAssinatura(texto,rect_x, rect_width , c):
     x = rect_x + (rect_width - text_width) / 2
     return x
 
+
+#Aqui inicia a função que gera dados
 def gerar_relatorio_pdf(dados):
     caminho_completo = os.path.join(os.path.dirname(__file__), 'teste.pdf')
     # Configuração do documento PDF

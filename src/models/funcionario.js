@@ -17,7 +17,7 @@ const FuncionarioSchema = new mongoose.Schema({
     DataNascimento: { type: String, required: true },
     CentroDeSaude: { type: String, required: true },
     DataCadastro: { type: String, required: true },
-    Observação: { type: String, required: true }
+    Observacao: { type: String, required: true }
 });
 
 

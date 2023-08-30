@@ -3,36 +3,8 @@ const MedProf = require('../models/MedProf')
 class MedProfController {
     async post(req, res) {
         try {
-            const {
-                IdentProfissional,
-                NomeCompleto,
-                NumeroRegistro,
-                UF,
-                CPF,
-                DataNascimento,
-                Cargo,
-                CodigoCBO,
-                Especialidades,
-                CentroDeSaude,
-                DataCadastro,
-                Afastamento
-              }= req.body
-
-            const medProf = {
-                IdentProfissional,
-                NomeCompleto,
-                NumeroRegistro,
-                UF,
-                CPF,
-                DataNascimento,
-                Cargo,
-                CodigoCBO,
-                Especialidades,
-                CentroDeSaude,
-                DataCadastro,
-                Afastamento
-            }
-            await MedProf.create(req.body)
+            const {data}  =req.body
+            await MedProf.create(data)
             res.status(201).json({msg:"Médico ou profissional cadastrado com sucesso"})
         } catch (error) {
             res.status(500).json({err: error})

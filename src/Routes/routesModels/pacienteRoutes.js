@@ -4,6 +4,7 @@ const Paciente = require('../../Controllers/PacienteController');
 //Rotas Pacientes
 router.post('/', Paciente.post);
 router.get('/:id', Paciente.get);
+router.get('/', Paciente.getAll);
 router.delete('/:id', Paciente.delete);
 router.put('/:id', Paciente.update);
 

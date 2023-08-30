@@ -5,7 +5,7 @@ const MedProfSchema = new mongoose.Schema({
     IdentProfissional: { type: Number, required: true },
     NomeCompleto: { type: String, required: true },
     NumeroRegistro: { type: Number, required: true },
-    UF: { type: Number, required: true, maxlength: 2},
+    UF: { type: String, required: true, maxlength: 2},
     CPF: { type: String, required: true },
     DataNascimento: { type: String, required: true },
     Cargo: { type: String, required: true},

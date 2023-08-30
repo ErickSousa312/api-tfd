@@ -2,8 +2,10 @@ const Funcionario = require('../models/Funcionario');
 
 class FuncionarioController{
     async post(req,res){
+        const {data} = req.body
+        console.log(data)
         try {
-            await Funcionario.create(req.body)
+            await Funcionario.create(data)
             .then((response)=>{
                 res.status(201).json({msg:"Funcionario cadastrado com sucesso"})
             })

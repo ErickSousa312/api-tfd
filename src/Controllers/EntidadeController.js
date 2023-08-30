@@ -2,8 +2,9 @@ const Entidade = require('../models/Entidade')
 
 class EntidadeController{
     async post(req, res){
+        const {data} = req.body
         try {
-            await Entidade.create(req.body)
+            await Entidade.create(data)
             .then((response)=>{
                 if(!response){
                     return res.status(400).json({msg: 'Entidade não foi cadastrada com sucesso'})
