@@ -16,8 +16,11 @@ class PacienteControler{
     async get (req,res){
         try {
             const {id}=req.params
-            Paciente.find({_id: id})
+            Paciente.findOne({_id: id})
             .then((paciente)=>{
+                if(paciente.length===0){
+                    return res.status(404).json({error:"Paciente não encontrado"})
+                }
                 return res.status(200).json(paciente)
             })
         } catch (error) {

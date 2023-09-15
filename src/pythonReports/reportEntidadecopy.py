@@ -138,7 +138,7 @@ dados_paciente = {
         "LocalOrigem": "Marabá",
         "LocalAtendimento": "hiroshi Matsuda",
         "Destino": "São Paulo",
-        "TipoDeslocamento": "Ambulância",
+        "TipoDeslocamento": "UTI Terrestre",
         "EmpresaTransporte": "Companhia Aérea XYZ",
         "TotalPassagem": {
             "ida": 2,
@@ -751,13 +751,29 @@ def gerar_relatorio_pdf(dados):
     # Fechar o arquivo PDF
     c.save()
 
-#espaço entre os campos 35
-#espaço entre os label e dados pequeno 15
-#espaço entre os label e retangulo pequenos 22
+# 24 entre quadrados
+# 15 entre quadrado e label
+# 4 entre dados e quadrado
 
-#espaço entre os campos 42
-#espaço entre os label e dados grande 18
-#espaço entre os label e retangulo grande 22
+# 38 para quadrado grande
+# 29 entre quadrado e label
+# 18 entre dados e quadrado
+
+# tamanho do Quadrado grande 28
+# tamanho do Quadrado pequeno 14
+
+# valor xy para:
+
+# Rodoviário = 37, 328
+# Aéreo = 37, 315
+
+# Ambulância = 112, 328
+# Ferroviário = 112, 315
+
+# UTI Aérea = 187, 328
+# UTI Terrestre = 187, 315
+
+# paralvras com 7 de tamanho tem 6 px
 
 
 # Ler os dados passados como argumento de linha de comando
