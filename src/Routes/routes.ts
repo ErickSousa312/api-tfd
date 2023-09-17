@@ -1,3 +1,5 @@
+import { Express } from 'express';
+
 const PacienteRoutes = require ('./routesModels/pacienteRoutes')
 const MedicoRoutes = require ('./routesModels/medicoRoutes')
 const FuncionariosRoutes = require('./routesModels/funcionarioRoutes')
@@ -7,10 +9,11 @@ const ProcessoRoutes = require('./routesModels/processoRoutes')
 const UsuariosRoutes = require('./routesModels/authRoutes')
 const ReportEntidade = require('./routesModels/reportRoutes')
 
+
 const TokenJWTmiddleware = require('../AuthJWT/jwtMiddleware')
 const TokenVerify = require('../AuthJWT/jwtVerify')
 
-function configRotas(app) {
+function configRotas(app:Express) {
     app.use('/paciente', PacienteRoutes);//ok
     app.use('/med',TokenJWTmiddleware, MedicoRoutes);//ok
     app.use('/func',TokenJWTmiddleware, FuncionariosRoutes);//ok
@@ -22,4 +25,4 @@ function configRotas(app) {
     app.use('/Report', ReportEntidade)
 }
 
-module.exports = configRotas
+export{configRotas}

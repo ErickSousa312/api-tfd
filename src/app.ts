@@ -1,5 +1,6 @@
 const express = require('express');
-const configRotas = require('./Routes/routes');
+
+const {configRotas} = require('./Routes/routes');
 const cors = require('cors')
 const app = express();
 app.use(
@@ -10,4 +11,4 @@ app.use(cors())
 
 configRotas(app)
 
-module.exports=app
+export{app}

@@ -1,8 +1,8 @@
 const startDB = require('./mongoBD');
 class Loaders {
-  start (){
+  start(): void {
     startDB();
   }
 }
-module.exports = new Loaders (); 
+export {Loaders}
 
