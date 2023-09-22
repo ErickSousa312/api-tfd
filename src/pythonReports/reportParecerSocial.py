@@ -268,7 +268,7 @@ def gerar_relatorio_pdf(dados):
     c.rect(110, 390, 455, 0.9, stroke=0, fill=1)
 
     # Desenhe as linhas com base nas coordenadas fornecidas
-    for i in range(4):
+    for i in range(4): # Quantidade de linhas
         y = 376 - i * 14  # Espaçamento vertical entre as linhas
         c.rect(30, y, 535, 0.9,
                stroke=0, fill=1)
