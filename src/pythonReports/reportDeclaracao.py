@@ -9,7 +9,7 @@ from reportlab.platypus import Table, TableStyle
 import textwrap
 import datetime
 import locale
-
+#erick
 import os
 # Dados do paciente
 dados_paciente = {
