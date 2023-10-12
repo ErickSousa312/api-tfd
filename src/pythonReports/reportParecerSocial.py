@@ -161,6 +161,8 @@ dados_paciente = {
 def CentralizarTexto(text, fontSize, c):
     page_width, page_height = c._pagesize
     text_width = c.stringWidth(text, "Helvetica", fontSize)
+    # a=float((page_width - 182) / 2)#achar metade da folha
+    # print(a)
     return (page_width - text_width) / 2
 
 
@@ -291,6 +293,14 @@ def gerar_relatorio_pdf(dados):
 
     # 14 entre paragrafos
     # 11 entre linhas
+    
+    #assinatura
+    texto = str(dados['IdPaciente']['NomePaciente'])+" - N° CPF " + str(dados['IdPaciente']['NumeroCPF'])
+    x = alinharAssinatura(texto,182,230, c) # espera como paremetros o texto, a largura da linha (x e y ) e o canva
+    c.setFont("Helvetica-Bold", 6)
+    x = CentralizarTexto("Assinatura e carimbo", 6,c)
+    c.drawString(x, 108, "Assinatura e carimbo")
+    c.rect(182, 115, 230, 0.05, stroke=1, fill=1)
 
     # Fechar o arquivo PDF
     c.save()
