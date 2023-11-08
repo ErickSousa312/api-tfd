@@ -22,7 +22,7 @@ MedProfSchema.pre('save', async function(next) {
     if (!this.isNew) {
       return next();
     }
-    const lastEntity = await MedProf.findOne({}, {}, { sort: { '_id' : -1 } });
+    const lastEntity = await MedProf.findOne();
     if (lastEntity && lastEntity._id) {
       this._id = lastEntity._id + 1;
     }

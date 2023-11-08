@@ -4,6 +4,7 @@ const Processo = require('../models/Processo')
 class ProcessoController {
   async post(req: Request, res: Response): Promise<Response> {
     try {
+      console.log(req.body)
       const response = await Processo.create(req.body);
       if (!response) {
         return res.status(400).json({ msg: "Erro ao criar Processos" });

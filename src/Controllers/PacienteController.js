@@ -4,10 +4,14 @@ class PacienteControler{
 
     async post(req, res){
         try {
-            const {data} = req.body
-            console.log(data)
-            await Paciente.create(data)
-                res.status(201).json({msg: "Paciente Cadastrado com sucesso"})
+            console.log(req.body)
+             const response = await Paciente.create(req.body)
+             if (!response) {
+                return res.status(400).json({ msg: "Erro ao criar Processos" });
+              } else {
+                return res.status(201).json({ msg: "Paciente criado com sucesso", data: response });
+              }
+            res.status(201).json({msg: "Paciente Cadastrado com sucesso"})
         } catch (error) {
             return res.status(400).json({err: error})
         }

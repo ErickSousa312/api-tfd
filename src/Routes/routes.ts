@@ -1,4 +1,6 @@
 import { Express } from 'express';
+import swaggerUI from 'swagger-ui-express'
+import swaggerDocs from '../swagger.json'
 
 const PacienteRoutes = require ('./routesModels/pacienteRoutes')
 const MedicoRoutes = require ('./routesModels/medicoRoutes')
@@ -14,7 +16,8 @@ const TokenJWTmiddleware = require('../AuthJWT/jwtMiddleware')
 const TokenVerify = require('../AuthJWT/jwtVerify')
 
 function configRotas(app:Express) {
-    app.use('/paciente',TokenJWTmiddleware, PacienteRoutes);//ok
+    app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
+    app.use('/paciente', PacienteRoutes);//ok
     app.use('/med',TokenJWTmiddleware, MedicoRoutes);//ok
     app.use('/func',TokenJWTmiddleware, FuncionariosRoutes);//ok
     app.use('/entid',TokenJWTmiddleware, EntidadeRoutes);//ok
@@ -26,3 +29,12 @@ function configRotas(app:Express) {
 }
 
 export{configRotas}
+
+
+
+
+
+
+
+
+
