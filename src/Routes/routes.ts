@@ -17,7 +17,6 @@ const TokenVerify = require('../AuthJWT/jwtVerify')
 
 function configRotas(app:Express) {
     app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
-
     app.use('/paciente', PacienteRoutes);//ok
     app.use('/med',TokenJWTmiddleware, MedicoRoutes);//ok
     app.use('/func',TokenJWTmiddleware, FuncionariosRoutes);//ok
