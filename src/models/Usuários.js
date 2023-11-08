@@ -5,7 +5,6 @@ const UsuarioSchema = new mongoose.Schema(
         _id: {type: Number, default:1, required: true},
         userName:{type: String, required: true},
         password:{type: String, required: true},
-        root:{type: Boolean, required: false}
     }
 )
 
